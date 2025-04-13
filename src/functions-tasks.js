@@ -78,7 +78,7 @@ function getArgumentsCount(funcs) {
  *
  */
 function getPowerFunction(exponent) {
-  const fn = function (x) {
+  const fn = function power(x) {
     return x ** exponent;
   };
 
@@ -103,7 +103,7 @@ function getPolynom(...rest) {
     return null;
   }
 
-  const fn = function (x) {
+  const fn = function polynom(x) {
     let result = 0;
     const degree = rest.length - 1;
 
@@ -134,7 +134,7 @@ function getPolynom(...rest) {
 function memoize(func) {
   let cachedResult;
 
-  const fn = function () {
+  const fn = function memo() {
     if (!cachedResult) {
       cachedResult = func();
     }
