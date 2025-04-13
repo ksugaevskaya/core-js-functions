@@ -18,7 +18,7 @@
  *
  */
 function getCurrentFunctionName() {
-  throw new Error('Not implemented');
+  return getCurrentFunctionName.name;
 }
 
 /**
@@ -32,8 +32,11 @@ function getCurrentFunctionName() {
  *   getFunctionBody(hiHello) => "function hiHello() { console.log('hello world'); }"
  *
  */
-function getFunctionBody(/* func */) {
-  throw new Error('Not implemented');
+function getFunctionBody(func) {
+  if (func === undefined) {
+    return '';
+  }
+  return func.toString();
 }
 
 /**
@@ -50,8 +53,12 @@ function getFunctionBody(/* func */) {
  *  ]) => [0, 1, 2]
  *
  */
-function getArgumentsCount(/* funcs */) {
-  throw new Error('Not implemented');
+function getArgumentsCount(funcs) {
+  const result = [];
+  for (let i = 0; i < funcs.length; i += 1) {
+    result.push(funcs[i].length);
+  }
+  return result;
 }
 
 /**
@@ -70,8 +77,12 @@ function getArgumentsCount(/* funcs */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  const fn = function (x) {
+    return x ** exponent;
+  };
+
+  return fn;
 }
 
 /**
@@ -87,8 +98,23 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...rest) {
+  if (rest.length === 0) {
+    return null;
+  }
+
+  const fn = function (x) {
+    let result = 0;
+    const degree = rest.length - 1;
+
+    for (let i = 0; i < rest.length; i += 1) {
+      const power = degree - i;
+      result += rest[i] * x ** power;
+    }
+
+    return result;
+  };
+  return fn;
 }
 
 /**
@@ -105,8 +131,17 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  let cachedResult;
+
+  const fn = function () {
+    if (!cachedResult) {
+      cachedResult = func();
+    }
+    return cachedResult;
+  };
+
+  return fn;
 }
 
 /**
@@ -151,8 +186,15 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  const fn = (...rest) => {
+    const argStr = rest.map((arg) => JSON.stringify(arg)).join(',');
+    logFunc(`${func.name}(${argStr}) starts`);
+    const result = func(...rest);
+    logFunc(`${func.name}(${argStr}) ends`);
+    return result;
+  };
+  return fn;
 }
 
 /**
